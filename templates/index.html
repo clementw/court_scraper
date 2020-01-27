@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>失信和执行抓取</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style type="text/css">
+    .form-control{width: 100%;}
+    textarea.username{height: 100px;}
+    .bs-example{border-radius:4px 4px 0 0;border:1px solid #ddd;padding: 45px 15px 15px;position: relative;}
+    .bs-example:after{position: absolute;top:15px;left: 15px;font-size: 12px;font-weight: 700;color:#959595;text-transform: uppercase;letter-spacing: 1px;content: "查询："}
+    .hasno{text-align: center;}
+    .bs-callout{padding: 20px;margin: 20px 0;border:1px solid #eee;border-left-width: 5px;border-radius: 3px;display: none;}
+    .bs-callout.active{display: block;}
+    .bs-callout-info{border-left-color: #1b809e;}
+    .bs-callout-danger{border-left-color: #ce4844;display:block;}
+    .tab-content{padding: 20px;border:1px solid #ddd;border-top: 0px;}
+    .loadingWrap{text-align: center;}
+    .loadingImg{display: block; margin: 0px auto;}
+    .auth_code{cursor: pointer;}
+    .nav-tabs li{cursor: pointer;}
+    .js_progress_wrap{text-align: center;}
+    .js_finished{color:#449d44;padding: 10px;}
+    .moreLink{color: blue; text-decoration: underline;cursor: pointer;}
+    .tbTitle{min-width: 200px; text-align: right;}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    失信和执行抓取
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                    <a href="#">失信和执行<span class="sr-only">(current)</span></a>
+                    </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">xxx</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="bs-example">
+            <form id="userlist" >
+                <div class="form-group">
+                    <textarea id="usertext" class="form-control username" placeholder="请输入查询条件如：张三 身份证号"></textarea>
+                </div>
+            </form>
+            <form  class="form-inline js_dataForm" style="padding-top:10px;" id="shixin_form" >
+                <input type="hidden" value="shixin" class="optionVal"/>
+                <div class="form-group">
+                    失信:
+                </div>
+                <div class="form-group">
+                    <span class="auth_code" data-option="shixin">
+                        <img src="static/img/loading.gif"／>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <input type="text"  AutoComplete="off" class="form-control js_captcha" placeholder="请输入验证码"/>
+                </div>
+                <div class="form-group">
+                    <div id="progress"></div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-info" value="查询失信"/>
+                </div>
+                <div class="js_progress_wrap hide">
+                    失信数据正在抓取中...
+                    <div class="progressWrap">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" style="width: 0%;">
+                            0%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="js_finished bg-success hide">
+                    失信数据抓取完成 <span class="glyphicon glyphicon-ok"></span>
+                </div>
+
+            </form>
+            <form  class="form-inline js_dataForm" style="padding-top:10px;" id="zhixing_form">
+                <input type="hidden" value="zhixing" class="optionVal"/>
+                <div class="form-group">
+                    执行:
+                </div>
+                <div class="form-group">
+                    <span class="auth_code" data-option="zhixing">
+                        <img src="static/img/loading.gif"／>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <input type="text"  AutoComplete="off" class="form-control js_captcha" placeholder="请输入验证码"/>
+                    
+                </div>
+                <div class="form-group">
+                    <div id="progress"></div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-info" value="查询执行"/>
+                </div>
+                <div class="js_progress_wrap  hide">
+                    执行数据正在抓取中..
+                    <div class="progressWrap">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" style="width: 0%;">
+                            0%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="js_finished bg-success hide">
+                    执行数据抓取完成 <span class="glyphicon glyphicon-ok"></span>
+                </div>
+            </form>
+            <button id="showBtn" class="btn btn-info hide">显示无记录的</button>
+        </div>
+        <div class="table-responsive" id="dataWrap"></div>
+    </div>
+    <!--失信弹窗开始-->
+    <div class="modal fade" id="shixinModal" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">失信详情</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <td class="tbTitle">被执行人姓名／名称</td>
+                            <td class="js_name">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">性别</td>
+                            <td class="js_sexy">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">年龄</td>
+                            <td class="js_age">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">身份证号码／组织机构代码</td>
+                            <td class="js_id_card">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">执行法院</td>
+                            <td class="js_courtName">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">省份</td>
+                            <td class="js_areaName">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">执行依据文号</td>
+                            <td class="js_gistId">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">立案时间</td>
+                            <td class="js_regDate">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">案号</td>
+                            <td class="js_caseCode">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">做出依据单位</td>
+                            <td class="js_gistUnit">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">生效法律文书确定义务</td>
+                            <td class="js_duty">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">被执行人行为具体情形</td>
+                            <td class="js_disruptTypeName">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">发布时间</td>
+                            <td class="js_publishDate">--</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--失信弹窗结束-->
+    <!-- 执行弹窗开始 -->
+    <div class="modal fade" id="zhixingModal" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">执行详情</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <td class="tbTitle">被执行人姓名／名称</td>
+                            <td class="js_name">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">身份证号码／组织机构代码</td>
+                            <td class="js_id_card">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">执行法院</td>
+                            <td class="js_execCourtName">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">立案时间</td>
+                            <td class="js_case_time">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">案号</td>
+                            <td class="js_caseCode">--</td>
+                        </tr>
+                        <tr>
+                            <td class="tbTitle">执行标的</td>
+                            <td class="js_execMoney">--</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 执行弹窗结束 -->
+</body>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.2.2/jquery.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/index.js?t=06"></script>
+</html>

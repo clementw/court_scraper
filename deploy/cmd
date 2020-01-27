@@ -1,0 +1,168 @@
+clear
+pip
+easy_install pip
+pip
+mkdir ~/.pip
+mkdir -p ~/.pip/pip.conf
+vim ~/.pip/pip.conf
+rm ~/.pip/pip.conf/
+rm  -r ~/.pip/pip.conf/
+clear
+ls
+clear
+pwd
+ls
+vim ~/.pip/pip.conf
+yum search libxml2
+yum search python3
+yum search python
+yum search python3
+clear
+pwd
+ls
+yum install -y libxml2 libzip libxslt libjpeg libpng
+yum search libxml2
+yum install -y libxml2-devel.x86_64
+clear
+ls
+yum install  install python3
+wget https://www.python.org/ftp/python/3.6.0/Python-3.6.0.tgz 
+ls
+tar -zxvf Python-3.6.0.tgz 
+clear
+ls
+cd Python-3.6.0
+ls
+cat README 
+ ./configure --help
+ls -al /usr/local/
+ ./configure --prefix=/usr/local/python3
+make && make install 
+/usr/local/python3/bin/python3 -h
+/usr/local/python3/bin/python3 --help
+/usr/local/python3/bin/python3  --help
+ls /usr/local/python3/bin
+/usr/local/python3/bin/pyvenv-3.6  /tmp/test
+cd /tmp/test/
+ls
+source  bin/activate
+python -v
+clear
+ls
+pwd
+ls
+cat pyvenv.cfg 
+pip
+ls bin/
+clear
+ls
+cat ~/.pip/pip.conf 
+pip install notebook
+clear
+ls -al lib
+ls -al lib/python3.6/
+ls -al lib/python3.6/site-packages/
+ls -al lib/python3.6/site-packages/notebook
+jupyter 
+jupyter  notebook
+cd /home/
+ls
+exit
+ls
+cat readme.md 
+mkdir /captcha_img
+ls
+pip -h
+pip install -r requirements.txt
+pip install setuptools
+pip install -r requirements.txt
+which  python
+which  python
+/bin/python  -v
+clear
+ls
+deallocvt 
+pwd
+cd ../
+ls
+cd crawler/
+ls
+cd bin/
+ls
+source  activate
+which  python
+cd ../../
+ls
+deactivate 
+deac
+exit
+ls
+cd /opt/crawler/
+ls
+source  bin/activate
+which  python
+cd ...
+cd ../
+ls
+cd court_crawler/
+ls
+clear
+ls
+which  pip
+pip3 
+pip3 install -r requirements.txt
+python server.py 
+ifconfig
+python server.py 
+python server.py 
+python server.py 
+ls
+ls
+python server.py 
+ls -al /captcha_img/
+ls -al /captcha_img
+python server.py 
+python server.py 
+python server.py 
+ls
+cd static/
+ls
+cd js/
+ls
+ls
+vim index.js 
+vim index.js 
+python server.py 
+cd ../
+ls
+cd ../
+ls
+python server.py 
+vim static/js/index.js 
+python server.py 
+vim index.js 
+vim static/js/index.js 
+python server.py 
+vim static/js/index.js 
+python server.py 
+ls -al /opt/crawler/
+ls -al /
+ls -al /captcha_img/
+ls
+python server.py 
+git pull
+python server.py 
+ls
+cat server.py 
+ls
+pwd
+ls -al
+cat .gitignore 
+ls -al /captcha_img/
+cat server.py 
+python server.py 
+mkdir captcha_img/
+python server.py 
+git pull
+git pull
+python server.py 
